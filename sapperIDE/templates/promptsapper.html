@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <title>Sapper IDE</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('sapperenterprise.static', filename='images/graphics/favicon.ico') }}">
+    <link href="{{ url_for('sapperenterprise.static', filename='js/plugin/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('sapperenterprise.static', filename='js/plugin/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/jquery-1.11.3.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/md5.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/download.min.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/blockly_compressed.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/blocks_compressed.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/javascript_compressed.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/python_compressed.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/lib/en.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/Sapper_Blocks.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/Sapper_javascript.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/Sapper_deploy.js') }}"></script>
+    <script src="{{ url_for('sapperenterprise.static', filename='js/background.js') }}"></script>
+    <link href="{{ url_for('sapperenterprise.static', filename='css/index.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('sapperenterprise.static', filename='index.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body style="background-image: linear-gradient(120deg, #a1c4fd 0%, #B2EBF2 100%)">
+<div class="container-fluid" style="width: 100%;height: 100%;padding: 0">
+  <div class="container-fluid" style="padding-left: 5px">
+      <div id="sapper_func" class="row" style="padding-bottom: 3px;padding-top: 3px">
+          <div id="sapper_func_left" class="col-8">
+            <div class="btn-group">
+              <button type="button" id="Show_Project_List" onclick="show_project()" class="btn content_button">Recent Projects</button>
+              <div class="btn-group">
+                <button type="button" class="btn content_button dropdown-toggle" data-bs-toggle="dropdown">Project Management</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Create a New AI Chain Project" onclick="new_project()">Create Project</a></li>
+<!--                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Save AI Chain Project" onclick="save_project()">Save Project</a></li>-->
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Open an AI Chain Project from Local Disk" onclick="upload_project()">Open Project</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Save AI Chain Project to Local Disk" onclick="download_project()">Download Project</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Python code for AI Chain" onclick="downloadpythoncode()">Download Code</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Deploy AI Chain Project as Web Service" onclick="deploymentCloud()" style="background-color: gainsboro; display: none">Deploy Project</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Share AI Chain Project to AI Chain Marketplace" onclick="" style="background-color: gainsboro; display: none">Share Project</a></li>
+                </ul>
+              </div>
+              <button type="button" id="Save_Project_Name" class="btn content_button" style="background-color: #acbfdc">Undefined Name</button>
+              <button type="button" id="ShowExplorationViewButton" data-bs-toggle="tooltip" data-bs-placement="top" title="Supports activities in the exploration and initial design phases" onclick="shift_view('ShowExplorationViewButton')" class="btn content_button" style="background-color: #7c7676; display: none">Exploration View</button>
+              <button type="button" id="ShowDesignViewButton" data-bs-toggle="tooltip" data-bs-placement="top" title="Supports the main activities of the design phases" onclick="shift_view('ShowDesignViewButton')" class="btn content_button">Design View</button>
+              <button type="button" id="ShowBlockViewButton" data-bs-toggle="tooltip" data-bs-placement="top" title="Supports AI chain implementation, execution, and debugging" onclick="shift_view('ShowBlockViewButton')" class="btn content_button">Block View</button>
+              <div class="btn-group">
+                  <button type="button" class="btn content_button dropdown-toggle" data-bs-toggle="dropdown">AI Chain Execution</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="run_block()">Run</a></li>
+                    <li><a class="dropdown-item" onclick="debug_block()">Debug</a></li>
+                    <li><a class="dropdown-item" onclick="stop_block()">Stop</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+          <div id="sapper_func_right" class="col-4">
+              <div class="container btn-group">
+                  <button type="button" id="show_modelpanel_button" data-bs-toggle="tooltip" data-bs-placement="top" title="The hub of your prompt assets" onclick="show_model()" class="btn content_button col-6" style="float: right; width: 160px">Engine Management</button>
+                  <button type="button" id="show_promptpanel_button" data-bs-toggle="tooltip" data-bs-placement="top" title="Configure and manage the engines used by workers" onclick="show_prompt()" class="btn content_button col-6" style="float: right;width: 160px">Prompt Hub</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container-fluid" style="padding-left: 0">
+      <div id="sapper_body" class="row">
+          <div id="ProjectDiv" class="col-12" style="padding-left: 5px;padding-right: 0">
+              <div id="ShowProjectDiv" class="btn-group-vertical" style="padding-left: 10px;width: 80px;display: none;"></div>
+              <div id="ProjectMainDiv" class="container-fluid" style="padding-bottom: 2px">
+                  <div id="WorkDiv" class="row">
+                      <div id="explorationDiv" class="col-12" style="height: 100%;display: none">
+                          <div class="container-fluid" style="height: 100%;">
+                              <div class="row" style="height: 100%">
+                                <div class="col-12" style="height: 100%; display: flex; padding: 0;overflow: auto">
+                                  <div id="explore-leftWrapper" style="position: relative; display: flex; flex-direction: column; width: 66.66%;">
+                                        <div id="ChatExplore" class="clarify_display" style="height: 100%; padding-right: 5px;padding-left: 5px;display: block">
+                                          <div class="container-fluid" style="height: 100%;width: 100%;display: flex;flex-direction: column;padding-bottom: 20px">
+                                              <div class="conversation-wrapper" id="Explore_conversation" style="flex: 1"></div>
+                                              <div class="input-wrapper" style="height: 25px; width: 100%;">
+                                                <div class="input-group input-msg" style="overflow-x: hidden">
+                                                    <input required id="ExploreInput" name="message" type="text" class="form-control" placeholder="Freely chat about your interested tasks or services">
+                                                    <a class="btn btn-msg" type="submit" onclick="SendExplore()"><i class="bi bi-send-fill"></i></a>
+                                                    <a class="btn btn-msg" onclick="ClearExplore()"><i class="bi bi-trash-fill"></i></a>
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <div id="explore-separator" class="separator"></div>
+                                  </div>
+                                  <div class='col-4' style="flex: 1;overflow-x: hidden">
+                                    <div class="clarify_display" style="height: 100%; padding: 10px;display: block;">
+                                        <div class="task-note-container" style="height: 100%; display: flex; flex-direction: column;padding: 0;">
+                                            <h5 class="task-note-title" style="margin-bottom: 10px;">Task Note</h5>
+                                            <textarea id="taskNodeDisplay" class="task-note-textarea" style="flex: 1; resize: none; padding: 10px;" placeholder="The co-pilot will automatically take notes for subsequent AI chain design and development. Alternatively, you may enter your own notes or edit auto-taken notes."></textarea>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="blocklyDiv" class="col-12" style="height: 100%;display: none"></div>
+                      <div id="draftBlocklyDiv" class="col-12" style="display: block;height: 100%">
+                          <div class="container-fluid" style="height: 100%;">
+                              <div class="row" style="height: 100%">
+                                  <div class="col-12" style="height: 100%; display: flex; padding: 0;overflow: auto">
+                                        <div id="design-leftWrapper" style="position: relative; display: flex; flex-direction: column; width: 33.333%;overflow-x: hidden">
+                                          <div id="ChatClarify" style="height: 100%; padding-right: 5px;padding-left: 5px;display: block;">
+                                              <div class="container-fluid clarify_display" style="height: 100%; width: 100%;display: flex;flex-direction: column; padding: 20px;overflow: hidden">
+                                                  <div class="conversation-wrapper" id="Clarify_conversation" style="flex: 1;"></div>
+                                                  <div class="input-wrapper" style="height: 25px; width: 100%; margin: 0 auto;">
+                                                        <div class="input-group input-msg" style="height: 20px;width: 100%">
+                                                            <input required id="msgInput" name="message" type="text" class="form-control" placeholder="Discuss with me what AI service you want to build">
+                                                            <a class="btn btn-msg" type="submit" onclick="SendClarify()"><i class="bi bi-send-fill"></i></a>
+                                                            <a class="btn btn-msg" onclick="ClearClarify()"><i class="bi bi-trash-fill"></i></a>
+                                                        </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div id="design-separator" class="separator"></div>
+                                        </div>
+                                        <div id="RequireDecompose" class="col-8" style="flex: 1;overflow-x: hidden">
+                                        <div id="result_display"  style="padding: 10px;width:100%;height: 100%">
+                                          <div id="stepsContainer" class="card-columns" style="width: 100%;height: 100%; float: left;padding: 10px">
+                                                <div id="DraftSteps" style="width: 100%;height: 100%; float: left; padding: 0;flex-direction: column;display: flex">
+                                                    <div style="width: 100%; height: 100px; margin-bottom: 5px;" id="Require_display_container">
+                                                        <textarea id="Require_display" class="ProjectPromptTemplate" placeholder="The co-pilot will automatically distil task requirements from the discussion. Alternatively, you may enter the task requirements or edit auto-distilled requirements" style="width: 100%; height: 100%; display: block; float: left"></textarea>
+                                                    </div>
+                                                    <div style="width: 100%; height: 30px" class="btn-group">
+                                                        <button id="DecomposeButton" type="button" class="btn btn-msg" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate the main steps required to complete the task, as well as three candidate prompts for each step." style="width: calc(100% - 50px); float: left" onclick="splitSteps()">Generate AI Chain Skeleton</button>
+                                                        <button type="button" id="arrow-button" class="btn btn-msg" style="width: 50px; float: left" data-bs-toggle="tooltip" data-bs-placement="top" title="Fold/Unfold task requirement box" onclick="toggleArrowIcon()">
+                                                            <i class="fa fa-chevron-up"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="container" style="padding: 5px;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="btn-group w-100">
+                                                                <button type="button" onclick="renderData(inittaskcard, workerindex)" class="btn btn-secondary col-md-4">
+                                                                    Create Step
+                                                                </button>
+                                                                <button type="button" onclick="createlogiccard('If', workerindex)" class="btn btn-secondary col-md-4">
+                                                                    Create Conditional Control
+                                                                </button>
+                                                                <button type="button" onclick="createlogiccard('While', workerindex)" class="btn btn-secondary col-md-4">
+                                                                    Create Loop Control
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ReadySplit" class="container mt-3" style="display: none;margin: 0 auto;">
+                                                      <div class="spinner-border spinner-border-sm"></div>
+                                                      <div class="spinner-grow spinner-grow-sm"></div>
+                                                      <div class="spinner-border spinner-border-sm"></div>
+                                                      <div class="spinner-grow spinner-grow-sm"></div>
+                                                      <div class="spinner-border spinner-border-sm"></div>
+                                                      <div class="spinner-grow spinner-grow-sm"></div>
+                                                    </div>
+                                                    <div id="data-container" class="row" style="overflow-y: auto;flex: 1;; padding: 5px; margin-top: 5px"></div>
+                                                    <div style="height: 25px; width: 50%; margin: 0 auto;">
+                                                        <button class="btn btn-msg" style="width: 100%" data-bs-toggle="tooltip" data-bs-placement="top" title="Assemble a block-based AI chain according to the AI chain skeleton, which can be viewed, edited, and executed in the Block view" onclick="parseCards()">Generate AI Chain</button>
+                                                    </div>
+                                                </div>
+                                          </div>
+                                          <div id="cardsContainer" style="padding: 15px;width: 35%;height: 100%; float: left;overflow-y: auto;display: none"></div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="CodeDiv" class="container-fluid code_model_content" style="height: 100px;padding-bottom: 2px">
+                  <div id="ProjectConsole" class="container-fluid" style="height: 100%;padding: 0;border-top: #8c8686 solid 5px;">
+                      <div id="BlockConsole" class="container-fluid" style="height: 100%;display: block">
+                          <div class="row" style="height: 100%">
+                              <div id="BlockConsoleDebug" class="col-6" style="height: 100%;float: left;padding: 0;display: none">
+                                  <div class="container" style="display: flex;flex-direction: column;padding: 0;height: 100%">
+                                      <div id="BlockDebugValue" style="flex: 1;width: 100%;padding: 0;display: block">
+                                          <textarea id = "input_value" class="ProjectPromptTemplate" style="width: 100%; height: 100%;display: none"></textarea>
+                                      </div>
+                                      <div style="width: 100%;">
+                                          <button id = "submit_value" class="content_button" style="width: 100%;height: 22px;display: none;float: left">Proceed</button>
+                                          <button id = "rerun_value" class="content_button" style="width: 48%;height: 22px;display: none;float: left">Rerun</button>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div id="BlockConsoleOutput" class="col-12" style="height: 100%;float: left;padding: 0;display: block">
+                                  <textarea id = "output_value" class="ProjectPromptTemplate" style="display: block;width: 100%" readonly="readonly"></textarea>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="PromptConsole" class="container-fluid" style="height: 100%;display: none">
+                          <div class="row"  id="PromptConsoleValue" style="height: 100%;">
+                              <textarea id="init_prompt_value" class="ProjectPromptTemplate" style="display: block" readonly="readonly"></textarea>
+                          </div>
+                      </div>
+                      <div id="EngineConsole" class="container-fluid" style="height: 100%;display: none">
+                          <div class="row"  id="EngineConsoleValue" style="height: 100%;overflow-y: auto">
+                              <textarea id="init_engine_value" class="ProjectPromptTemplate" style="display: block" readonly="readonly"></textarea>
+                          </div>
+                      </div>
+                      <div id="ImageConsole" class="container">
+<!--                        <div class="position-absolute draggable-img" style="width: 150px; height: 150px; cursor: move;right: 10px;top: 10px">-->
+<!--                          <img src="http://127.0.0.1:5000/static/images/debugred.png" alt="Your Image" class="img-thumbnail" style="width: 100%; height: 100%;">-->
+<!--                          <button type="button" class="btn btn-danger btn-sm position-absolute delete-btn-image" style="top: -5px; right: -5px;">&times;</button>-->
+<!--                        </div>-->
+                      </div>
+                  </div>
+              </div>
+              <div id="container-fluid ProjectConsoleButton" style="padding-left: 5px">
+                  <div class="btn-group" style="padding-bottom: 3px;padding-left: 5px">
+                      <button id="show_blockconsole_button" onclick="show_block_console()" class="btn content_button">Block Console</button>
+                      <button id="show_engineconsole_button" onclick="show_engine_console()" class="btn content_button">Engine Console</button>
+                      <button id="show_promptconsole_button" onclick="show_prompt_console()" class="btn content_button">Prompt Console</button>
+                  </div>
+                  <input required id="OpenAIKey" type="password" style="width: 250px;font-weight:bold" placeholder="Enter OpenAI API key here" oninput="OpenAIKey = this.value">
+              </div>
+          </div>
+          <div id="ModelDiv" class="col-5" style="padding: 0;height: 100%">
+            <div class="container btn-group" style="padding-bottom: 2px">
+                <button type="button" onclick="import_model()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export the selected engines to the project" class="btn content_button">Export to Project</button>
+                <button type="button" onclick="save_model()" data-bs-toggle="tooltip" data-bs-placement="top" title="Save the created engine in the Foundation Engine tab" class="btn content_button">Save Engine to FM Engines</button>
+                <button type="button" onclick="download_model()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download engine information to local files" class="btn content_button">Download Engine</button>
+                <button type="button" onclick="upload_model()" data-bs-toggle="tooltip" data-bs-placement="top" title="Upload engine information from local files to the IDE" class="btn content_button">Upload Engine</button>
+            </div>
+            <div id="CreateModelDiv" class="container" style="height: calc(100% - 30px);"></div>
+            <div id="ModelContentDiv" class="container" style="height: 40%;float: left;overflow-y: scroll;padding-left: 12px !important;padding-right: 5px !important;display: none"></div>
+          </div>
+          <div id="PromptDiv" class="col-5" style="padding: 0;height: 100%">
+              <div class="container btn-group" style="padding-bottom: 2px">
+                <button type="button" onclick="import_prompt()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export the selected prompts to the project" class="btn content_button">Export to Project</button>
+                <button type="button" onclick="save_prompt()" data-bs-toggle="tooltip" data-bs-placement="top" title="Save the created prompts to the Prompt Base or update existing prompts in the Prompt Base." class="btn content_button">Save to Prompt Base</button>
+                <button type="button" onclick="download_prompt()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download the prompts into local files" class="btn content_button">Download Prompt</button>
+                <button type="button" onclick="" data-bs-toggle="tooltip" data-bs-placement="top" title="Upload local prompt files to the IDE" class="btn content_button">Upload Prompt</button>
+              </div>
+              <div id="CreatePromptDiv" class="container" style="height: calc(60% - 30px);"></div>
+              <div id="PromptContentDiv" class="container" style="height: 40%;float: left">
+                  <textarea id="init_prompt_template" class="prompttemplate" style="display: block" placeholder="Edit prompt text here …" readonly="readonly"></textarea>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <xml id="toolbox" style="display: none">
+      <category name="Units" id="Units" colour="210">
+<!--          <block type="Set_Text"></block>-->
+        <block type="Module"></block>
+
+        <block type="AI_Unit"></block>
+<!--        <block type="good"></block>-->
+<!--        <block type="Tool_Unit"></block>-->
+
+    </category>
+      <category name="Code" id="Logic" colour="210">
+          <block type="Input"></block>
+          <block type="Output"></block>
+          <block type="text"></block>
+          <block type="prompt_controls_whileUntil"></block>
+          <block type="prompt_control"></block>
+          <block type="prompt_compare">
+            <value name="A">
+                <block type="unit_var_value">
+                    <field name="unit_value">Unit</field>
+                </block>
+            </value>
+            <value name="B">
+                <shadow type="text">
+<!--                    <field name="TEXT"></field>-->
+                </shadow>
+            </value>
+        </block>
+          <block type="Set_value">
+              <value name="variable">
+                <block type="unit_var_value">
+                    <field name="unit_value">Unit</field>
+                </block>
+            </value>
+              <value name="value">
+                <shadow type="text">
+<!--                    <field name="TEXT"></field>-->
+                </shadow>
+            </value>
+          </block>
+          <block type="Append_text">
+              <value name="variable">
+                <block type="unit_var_value">
+                    <field name="unit_value">Unit</field>
+                </block>
+            </value>
+              <value name="value">
+                <shadow type="text">
+<!--                    <field name="TEXT"></field>-->
+                </shadow>
+            </value>
+          </block>
+          <block type="For_each">
+            <value name="Var">
+                <block type="unit_var_value">
+                    <field name="unit_value">Item</field>
+                </block>
+            </value>
+              <value name="List">
+                <block type="unit_var_value">
+                    <field name="unit_value">Unit</field>
+                </block>
+            </value>
+          </block>
+      </category>
+      <category name="Prompts" custom="DIYPrompt" colour="210"></category>
+      <category name="Variables" custom="Myvariables" colour="210"></category>
+      <category name="Engines" custom="Mymodels" colour="210"></category>
+  </xml>
+  <xml id="modeltoolbox" style="display: none">
+      <category name="Foundation Models" colour="210">
+          <block type="Model">
+              <field name="modelName">gpt-3.5-turbo</field>
+          </block>
+          <block type="Model">
+              <field name="modelName">text-davinci-003</field>
+          </block>
+          <block type="Model">
+              <field name="modelName">DALL-E</field>
+          </block>
+      </category>
+      <category name="FM Engines" custom="DIYModel" colour="210">
+      </category>
+<!--      <category name="Traditional ML Models" colour="210" >-->
+<!--          <block type="APIEngine">-->
+<!--              <field name="LLM_Name">tts_ws</field>-->
+<!--          </block>-->
+<!--          <block type="APIEngine">-->
+<!--              <field name="LLM_Name">stable_diffusion</field>-->
+<!--          </block>-->
+<!--          <block type="APIEngine">-->
+<!--              <field name="LLM_Name">damo-vilab</field>-->
+<!--          </block>-->
+<!--          <block type="APIEngine">-->
+<!--              <field name="LLM_Name">SpeechT5</field>-->
+<!--          </block>-->
+<!--      </category>-->
+      <category name="API Engines" custom="APIEngine" colour="210">
+      </category>
+  </xml>
+  <xml id="prompttoolbox" style="display: none">
+      <category name="Prompt Builder" colour="210">
+          <block type="Prompt_template">
+              <value name="prompt_value">
+                  <block type="Example1" id="initexample">
+                  </block>
+              </value>
+          </block>
+<!--          <block type="lists_create_with">-->
+<!--              <mutation items="1"></mutation>-->
+<!--          </block>-->
+          <block type="Example1"></block>
+      </category>
+      <category name="Prompt Base" custom="DIYPrompttemplate" colour="210"></category>
+  </xml>
+  <script src="{{ url_for('sapperenterprise.static', filename='js/index.js') }}"></script>
+  <script>
+      // 初始化 Dropzone
+    Dropzone.autoDiscover = false;
+    var myDropzone = new Dropzone("#myDropzone", {
+      url: "your-upload-url",
+      paramName: "file",
+      maxFiles: 1,
+      acceptedFiles: ".eml",
+      init: function() {
+        this.on("addedfile", function(file) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var emlContent = e.target.result;
+            // 在这里进行文件处理操作，将 emlContent 转换为字符串
+            console.log(emlContent);
+          };
+          reader.readAsText(file, 'UTF-8');
+        });
+      }
+    });
+
+
+  </script>
+</body>
+</html>

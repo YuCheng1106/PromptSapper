@@ -5,7 +5,6 @@ This repository includes the implementation of Sapper IDE and all experiment dat
 
 [//]: # (<hr>)
 ## RESOURCE
-* Paper: [ArXiv](https://browse.arxiv.org/pdf/2306.12028.pdf)
 * Sapper IDE Demo: [Website](https://www.promptsapper.tech/sapperpro/workspace), [Github](https://github.com/YuCheng1106/PromptSapper/tree/main/sapperIDE)
 
 ## User Study

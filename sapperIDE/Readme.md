@@ -47,10 +47,6 @@ You can refer to the following links to access detailed usage tutorials for Sapp
 
 - [Sapper IDE Usage Tutorial](https://www.aichain.online/public/content%20pages/sapperide/ideintro.html)
 
-Additionally, you can also delve into the principles and features of Sapper IDE by referencing the following academic paper:
-
-- [Sapper IDE Academic Paper](https://browse.arxiv.org/pdf/2306.12028.pdf)
-
 
 ## Support and Feedback
 

@@ -89,6 +89,7 @@ We recruited 18 participants aged 18–25 years, with varying levels of programm
 Participants completed three sets of tasks (Task A/B/C) with similar difficulties using all three tools. Tasks involved programming constructs such as plain use of LLM, if-else, while loop, variables, and the use of different LLMs. After completing the tasks, participants filled out a questionnaire regarding user experience and cognitive dimensions for interface evaluation.
 
 ### Results
+![Score Results](./assets/score_result.png)
 
 1. **Sapper V2 vs. Python**: 
    - **Ease of Use**: Sapper V2 was easier to understand and use compared to Python. Participants spent significantly less time completing tasks using Sapper V2.
@@ -100,8 +101,6 @@ Participants completed three sets of tasks (Task A/B/C) with similar difficultie
    - **Usability Scores**: Both versions had similar user experience, with Sapper V2 being more concise and having higher visibility.
 
 ### Detailed Time Spent
-
-![Score Results](./assets/score_result.png)
 
 |          | Python            | Sapper V1          | Sapper V2          |
 |----------|-------------------|--------------------|--------------------|
